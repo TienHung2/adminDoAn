@@ -3,7 +3,53 @@ import { Link } from 'react-router-dom';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 
 class Login extends Component {
+
+
+  constructor(){
+    super();
+   
+    this.state = {
+     username: '',
+     password: '',
+     items: [],
+     redirectToReferrer: false
+    };
+
+    this.login = this.login.bind(this);
+    this.onChange = this.onChange.bind(this);
+
+  }
+
+  login() {
+    if(this.state.username && this.state.password){
+      fetch('http://localhost:8080/Blog/api/user/login/'+this.state.username+'/'+this.state.password)
+      .then(res => res.json())
+      .then(json => {
+        sessionStorage.setItem('userData',JSON.stringify(json.users));
+        // if(json.users.length!=0){this.setState({redirectToReferrer: true});}
+        var a=sessionStorage.getItem('userData')
+        if(a.length!=2){
+          console.log(sessionStorage.getItem('userData'))
+          document.location.assign('http://localhost:3000/setting/categories/createcategory#/base/letienhung');
+        }else{
+          console.log("a = "+a.length)
+          window.alert("Loi");
+          
+        }
+        this.setState({
+          items: json.users,
+        })
+      })
+    }
+   }
+
+  onChange(e){
+    this.setState({[e.target.name]:e.target.value});
+   }
+
   render() {
+
+    const {username, password} = this.state;
     return (
       <div className="app flex-row align-items-center">
         <Container>
@@ -12,7 +58,7 @@ class Login extends Component {
               <CardGroup>
                 <Card className="p-4">
                   <CardBody>
-                    <Form>
+                    <Form autoComplete="off">
                       <h1>Login</h1>
                       <p className="text-muted">Sign In to your account</p>
                       <InputGroup className="mb-3">
@@ -21,7 +67,7 @@ class Login extends Component {
                             <i className="icon-user"></i>
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input type="text" placeholder="Username" autoComplete="username" />
+                        <Input value={username} onChange={this.onChange} name="username" type="text" placeholder="Username" />
                       </InputGroup>
                       <InputGroup className="mb-4">
                         <InputGroupAddon addonType="prepend">
@@ -29,11 +75,11 @@ class Login extends Component {
                             <i className="icon-lock"></i>
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input type="password" placeholder="Password" autoComplete="current-password" />
+                        <Input value={password} onChange={this.onChange} name="password" type="password" placeholder="Password" />
                       </InputGroup>
                       <Row>
                         <Col xs="6">
-                          <Button color="primary" className="px-4">Login</Button>
+                          <Button onClick={this.login} color="primary" className="px-4">Login</Button>
                         </Col>
                         <Col xs="6" className="text-right">
                           <Button color="link" className="px-0">Forgot password?</Button>

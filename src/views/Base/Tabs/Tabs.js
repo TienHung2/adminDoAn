@@ -126,14 +126,7 @@ class Tabs extends Component {
                   className={this.state.activeTab[2] === '2' ? '' : 'd-none'}> Shopping cart</span>
                 </NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink
-                  className={classnames({ active: this.state.activeTab[2] === '3' })}
-                  onClick={() => { this.toggle(2,'3'); }}
-                >
-                  <i className="icon-pie-chart"></i> <span className={this.state.activeTab[2] === '3' ? '' : 'd-none'}> Charts</span>
-                </NavLink>
-              </NavItem>
+            
             </Nav>
             <TabContent activeTab={this.state.activeTab[2]}>
               {this.tabPane()}
@@ -161,14 +154,7 @@ class Tabs extends Component {
                   {'\u00A0'}<Badge pill color="danger">29</Badge>
                 </NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink
-                  active={this.state.activeTab[3] === '3'}
-                  onClick={() => { this.toggle(3, '3'); }} >
-                    <i className="icon-pie-chart"></i>
-                    <span className={this.state.activeTab[3] === '3' ? '' : 'd-none'}> Charts</span>
-                </NavLink>
-              </NavItem>
+              
             </Nav>
             <TabContent activeTab={this.state.activeTab[3]}>
               {this.tabPane()}
